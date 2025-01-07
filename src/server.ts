@@ -8,11 +8,11 @@ let server: Server;
 
 async function main() {
   try {
-    await mongoose.connect(config.database_url as string);
+    await mongoose.connect("mongodb+srv://mongoose:oRdevHrHQs7cLli7@cluster0.richl.mongodb.net/mongoose-first-project?retryWrites=true&w=majority&appName=Cluster0");
 
     seedSuperAdmin();
-    server = app.listen(config.port, () => {
-      console.log(`app is listening on port ${config.port}`);
+    server = app.listen(5000, () => {
+      console.log(`app is listening on port 5000`);
     });
   } catch (err) {
     console.log(err);

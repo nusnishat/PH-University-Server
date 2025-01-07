@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import config from '../../config';
 import AppError from '../../errors/AppError';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 import { AcademicDepartment } from '../AcademicDepartment/academicDepartment.model';
@@ -30,7 +29,7 @@ const createStudentIntoDB = async (
   const userData: Partial<TUser> = {};
 
   //if password is not given , use default password
-  userData.password = password || (config.default_password as string);
+  userData.password = password || ("PhUniversity*&!");
 
   //set student role
   userData.role = 'student';
@@ -110,7 +109,7 @@ const createFacultyIntoDB = async (
   const userData: Partial<TUser> = {};
 
   //if password is not given , use deafult password
-  userData.password = password || (config.default_password as string);
+  userData.password = password || ("PhUniversity*&!");
 
   //set faculty role
   userData.role = 'faculty';
@@ -182,7 +181,7 @@ const createAdminIntoDB = async (
   const userData: Partial<TUser> = {};
 
   //if password is not given , use deafult password
-  userData.password = password || (config.default_password as string);
+  userData.password = password || ("PhUniversity*&!");
 
   //set student role
   userData.role = 'admin';

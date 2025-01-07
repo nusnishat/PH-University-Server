@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import config from '../../config';
 import AppError from '../../errors/AppError';
 import { sendEmail } from '../../utils/sendEmail';
 import { User } from '../User/user.model';
@@ -45,14 +44,14 @@ const loginUser = async (payload: TLoginUser) => {
 
   const accessToken = createToken(
     jwtPayload,
-    config.jwt_access_secret as string,
-    config.jwt_access_expires_in as string,
+    "091b2c529dec033b5ff4531e622ea3f93170e045222963319662b7e4a34f0cdd",
+    "10d",
   );
 
   const refreshToken = createToken(
     jwtPayload,
-    config.jwt_refresh_secret as string,
-    config.jwt_refresh_expires_in as string,
+    "41b991b21dc0a439cb45fed544992ba3fafa3f912d3c4dedebec3592d7d552fb74a86a4d69ea560bcf7bf988d173ddecaffa9815dd5a6661bcacd58c0cdb2dc5",
+    "365d",
   );
 
   return {
@@ -96,7 +95,7 @@ const changePassword = async (
   //hash new password
   const newHashedPassword = await bcrypt.hash(
     payload.newPassword,
-    Number(config.bcrypt_salt_rounds),
+    Number(12),
   );
 
   await User.findOneAndUpdate(
@@ -116,7 +115,7 @@ const changePassword = async (
 
 const refreshToken = async (token: string) => {
   // checking if the given token is valid
-  const decoded = verifyToken(token, config.jwt_refresh_secret as string);
+  const decoded = verifyToken(token, "41b991b21dc0a439cb45fed544992ba3fafa3f912d3c4dedebec3592d7d552fb74a86a4d69ea560bcf7bf988d173ddecaffa9815dd5a6661bcacd58c0cdb2dc5");
 
   const { userId, iat } = decoded;
 
@@ -154,8 +153,8 @@ const refreshToken = async (token: string) => {
 
   const accessToken = createToken(
     jwtPayload,
-    config.jwt_access_secret as string,
-    config.jwt_access_expires_in as string,
+    "091b2c529dec033b5ff4531e622ea3f93170e045222963319662b7e4a34f0cdd",
+    "10d",
   );
 
   return {
@@ -191,11 +190,11 @@ const forgetPassword = async (userId: string) => {
 
   const resetToken = createToken(
     jwtPayload,
-    config.jwt_access_secret as string,
+    "091b2c529dec033b5ff4531e622ea3f93170e045222963319662b7e4a34f0cdd",
     '10m',
   );
 
-  const resetUILink = `${config.reset_pass_ui_link}?id=${user.id}&token=${resetToken} `;
+  const resetUILink = `http://localhost:5173/?id=${user.id}&token=${resetToken} `;
 
   sendEmail(user.email, resetUILink);
 
@@ -228,7 +227,7 @@ const resetPassword = async (
 
   const decoded = jwt.verify(
     token,
-    config.jwt_access_secret as string,
+    "091b2c529dec033b5ff4531e622ea3f93170e045222963319662b7e4a34f0cdd",
   ) as JwtPayload;
 
   //localhost:3000?id=A-0001&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJBLTAwMDEiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDI4NTA2MTcsImV4cCI6MTcwMjg1MTIxN30.-T90nRaz8-KouKki1DkCSMAbsHyb9yDi0djZU3D6QO4
@@ -241,7 +240,7 @@ const resetPassword = async (
   //hash new password
   const newHashedPassword = await bcrypt.hash(
     payload.newPassword,
-    Number(config.bcrypt_salt_rounds),
+    Number(12),
   );
 
   await User.findOneAndUpdate(
